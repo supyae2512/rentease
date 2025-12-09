@@ -1,7 +1,10 @@
 package com.rentease.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.rentease.entity.Property.LeaseTerm;
 import com.rentease.entity.Property.PropertyStatus;
 import com.rentease.entity.Property.PropertyType;
 import com.rentease.utils.Helper.AsianCurrency;
@@ -16,12 +19,26 @@ public class PropertyDTO {
     private PropertyType propertyType;   // ENUM value as string (HDB, CONDO…)
     private PropertyStatus propertyStatus; // FOR_RENT, FOR_SALE
     
+    private LeaseTerm leaseTerm;
+    
+    private LocalDate availableDate;
+    
+    private Integer minLeaseMonths;
+    
     private AsianCurrency currency;
 
     private double price;
 
     private String address;
-    private String city;
+    public Integer getMinLeaseMonths() {
+		return minLeaseMonths;
+	}
+
+	public void setMinLeaseMonths(Integer minLeaseMonths) {
+		this.minLeaseMonths = minLeaseMonths;
+	}
+
+	private String city;
     private String postalCode;
     private String country;
     
@@ -153,5 +170,21 @@ public class PropertyDTO {
 
 	public void setExistingImages(List<String> existingImages) {
 		this.existingImages = existingImages;
+	}
+
+	public LeaseTerm getLeaseTerm() {
+		return leaseTerm;
+	}
+
+	public void setLeaseTerm(LeaseTerm leaseTerm) {
+		this.leaseTerm = leaseTerm;
+	}
+
+	public LocalDate getAvailableDate() {
+		return availableDate;
+	}
+
+	public void setAvailableDate(LocalDate availableDate) {
+		this.availableDate = availableDate;
 	}
 }

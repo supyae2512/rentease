@@ -1,5 +1,6 @@
 package com.rentease.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -64,6 +65,12 @@ public class Property {
         STUDIO
     }
     
+    public enum LeaseTerm {
+    	YEARLY,
+    	MONTHLY,
+    	WEEKLY
+    }
+    
     @Enumerated(EnumType.STRING)
     private PropertyStatus propertyStatus;
     
@@ -71,6 +78,13 @@ public class Property {
     private PropertyType propertyType;
     
     @Enumerated(EnumType.STRING)
+    private LeaseTerm leaseTerm;
+    
+    
+    @Column(name = "min_lease_months", nullable = true, columnDefinition = "int default 0")
+    private Integer minLeaseMonths = 0;
+
+	@Enumerated(EnumType.STRING)
     @Column(name = "currency", nullable = false)
     private AsianCurrency currency;
 
@@ -78,6 +92,9 @@ public class Property {
     @JoinColumn(name = "advertiser_id", nullable = false)
 	@JsonIgnore
     private User advertiser;
+	
+	@Column(name = "available_date", nullable = true)
+	private LocalDate availableDate;
 	
 	 public Long getId() {
 		return id;
@@ -237,5 +254,21 @@ public class Property {
 	public void setAdvertiser(User user) {
 		// TODO Auto-generated method stub
 		this.advertiser = user;
+	}
+	
+	public LeaseTerm getLeaseTerm() {
+		return leaseTerm;
+	}
+
+	public void setLeaseTerm(LeaseTerm leaseTerm) {
+		this.leaseTerm = leaseTerm;
+	}
+	
+	public Integer getMinLeaseMonths() {
+		return minLeaseMonths;
+	}
+
+	public void setMinLeaseMonths(Integer minLeaseMonths) {
+		this.minLeaseMonths = minLeaseMonths;
 	}
 }

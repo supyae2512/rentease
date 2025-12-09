@@ -74,6 +74,9 @@ public class PropertyService {
         property.setIsActive(true);
         property.setCreatedAt(LocalDateTime.now());
         property.setUpdatedAt(LocalDateTime.now());
+        
+        property.setLeaseTerm(dto.getLeaseTerm());
+        property.setMinLeaseMonths(dto.getMinLeaseMonths());
 
         // Save Property first (required for 1-to-1 mapping)
         Property savedProperty = propertyRepository.save(property);
@@ -110,7 +113,7 @@ public class PropertyService {
         return savedProperty;
     }
 
-	public Property updateProperty(Long id, PropertyDTO dto, Long advertiserId) {
+	public Property updateProperty(Long id, PropertyDTO dto) {
 
 	    Property property = propertyRepository.findById(id)
 	            .orElseThrow(() -> new RuntimeException("Property not found"));

@@ -101,14 +101,52 @@ public class PropertyController {
         return ResponseEntity.ok(response);
     }
     
-    @PutMapping("/update/{id}")
-    public Property updateProperty(
-            @PathVariable Long id,
-            @RequestBody PropertyDTO dto,
-            @RequestParam Long advertiserId) {
+//    @PutMapping("/update/{id}")
+//    public Property updateProperty(
+//            @PathVariable Long id,
+//            @RequestBody PropertyDTO dto,
+//            @RequestParam Long advertiserId) {
+//
+//        return propertyService.updateProperty(id, dto, advertiserId);
+//    }
+    
+    @PutMapping("/update/{propertyId}")
+    public ResponseEntity<?> updateProperty(@PathVariable Long propertyId, 
+                                            @RequestBody PropertyDTO dto,
+                                            HttpServletRequest request) {
 
-        return propertyService.updateProperty(id, dto, advertiserId);
+        Property property = propertyService.getPropertyById(propertyId)
+                    .orElseThrow(() -> new RuntimeException("Property not found"));
+
+        property.setTitle(dto.getTitle());
+        property.setDescription(dto.getDescription());
+        property.setCountry(dto.getCountry());
+        property.setCity(dto.getCity());
+        property.setAddress(dto.getAddress());
+        property.setPostalCode(dto.getPostalCode());
+
+        property.setPropertyType(dto.getPropertyType());
+        property.setPropertyStatus(dto.getPropertyStatus());
+//        property.setRentalFrequency(dto.getRentalFrequency());
+//        property.setMinimumLease(dto.getMinimumLease());
+        property.setCurrency(dto.getCurrency());
+        
+        property.setPrice(dto.getPrice());
+//        property.setAvailability(dto.getAvailability());
+
+       
+        propertyService.updateProperty(propertyId, dto);
+        
+        ApiResponse<?> response = new ApiResponse<>(
+                200,
+                "Property Updated Successfully",
+                request.getRequestURI(),
+                property
+        );
+
+        return ResponseEntity.ok(response);
     }
+
 
 
     @DeleteMapping("/{id}")

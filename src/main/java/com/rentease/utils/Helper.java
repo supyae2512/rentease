@@ -1,5 +1,20 @@
 package com.rentease.utils;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+
+import org.springframework.stereotype.Component;
+
+@Component
 public class Helper {
 
 	
@@ -54,4 +69,41 @@ public class Helper {
 	        return code;
 	    }
 	}
+	
+	public byte[] compressMedia(byte[] originalBytes) throws IOException {
+	    final long MAX_SIZE = 500 * 1024; // 500 KB
+
+
+	    BufferedImage image = ImageIO.read(new ByteArrayInputStream(originalBytes));
+
+	    BufferedImage rgbImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+	    Graphics2D g = rgbImage.createGraphics();
+	    g.drawImage(image, 0, 0, null);
+	    g.dispose();
+
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    float quality = 0.8f;
+
+	    System.out.println("Baos size :: " + baos.size());
+	    System.out.println("Baos size :: " + MAX_SIZE);
+	    
+	    while (baos.size() < MAX_SIZE && quality > 0.1f) {
+	        baos.reset();
+	        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+	        ImageWriteParam param = writer.getDefaultWriteParam();
+	        param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+	        param.setCompressionQuality(quality);
+
+	        try (ImageOutputStream ios = ImageIO.createImageOutputStream(baos)) {
+	            writer.setOutput(ios);
+	            writer.write(null, new IIOImage(rgbImage, null, null), param);
+	        } finally {
+	            writer.dispose();
+	        }
+
+	        quality -= 0.1f;
+	    }
+	    return baos.toByteArray();
+	}
+
 }

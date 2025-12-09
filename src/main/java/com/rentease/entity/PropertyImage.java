@@ -35,6 +35,15 @@ public class PropertyImage {
 	    @JoinColumn(name = "property_id", nullable = false)
 	    @JsonBackReference
 	    private Property property;
+	    
+		 public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
 
 		public String getImageUrl() {
 			return imageUrl;

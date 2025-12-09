@@ -24,10 +24,13 @@ import com.rentease.entity.PropertyImage;
 import com.rentease.exceptions.CustomException;
 import com.rentease.service.PropertyImageService;
 import com.rentease.service.PropertyService;
+import com.rentease.utils.AWSHelper;
 import com.rentease.utils.ApiResponse;
 import com.rentease.utils.GoogleHelper;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import com.rentease.utils.Helper;
 
 @RestController
 @RequestMapping("/api/property-images")
@@ -42,6 +45,9 @@ public class PropertyImageController {
     
     @Autowired
     private GoogleHelper googleHelper;
+    
+    @Autowired
+    private AWSHelper awsHelper;
     
 
     @Value("${gcp.bucket.name}")
@@ -61,6 +67,7 @@ public class PropertyImageController {
         }
 
         Property property = propertyOpt.get();
+       
         
         // Create a unique file name
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -126,13 +133,18 @@ public class PropertyImageController {
     	String publicUrl = propertyImage.get().getImageUrl();
     	
     	// Get Object Path; remove domain and bucket name;
-    	String prefix = "https://storage.cloud.google.com/" + bucketName + "/";
-        String objectName = publicUrl.replace(prefix, "");
+    	// GCS version; 
+//    	String prefix = "https://storage.cloud.google.com/" + bucketName + "/";
+//        String objectName = publicUrl.replace(prefix, "");    	    	
+//    	Boolean isDeleted = googleHelper.deleteFileFromGcs(objectName);
     	
     	
-    	System.out.println("Object Name : " + objectName);
-    	    	
-    	Boolean isDeleted = googleHelper.deleteFileFromGcs(objectName);
+    	// AWS s3 version;
+    	String prefix = "https://amzn-s3-rentease.s3.amazonaws.com/";
+        String objectName = publicUrl.replace(prefix, "");    	    	
+    	Boolean isDeleted = awsHelper.deleteFileFromS3(objectName);
+    	
+    	
     	if (!isDeleted) {
     		throw new RuntimeException("Failed to delete the image!");
     	}
@@ -165,21 +177,28 @@ public class PropertyImageController {
 
         List<PropertyImage> savedImages = new ArrayList<>();
 
-        for (MultipartFile file : files) {
-            // Create unique filename
-            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        for (MultipartFile file : files) { 
+        	
+        	if (file.getSize() > 0) {
+        		// Create unique filename
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-            // Upload to GCS
-            String publicUrl = googleHelper.uploadFileToGcs(fileName, file);
+                // Upload to GCS
+                // String publicUrl = googleHelper.uploadFileToGcs(fileName, file);
+                String publicUrl = awsHelper.uploadToS3(file, fileName);
+                
 
-            // Save DB metadata
-            PropertyImage img = new PropertyImage();
-            img.setProperty(property);
-            img.setFileName(fileName);
-            img.setImageUrl(publicUrl);
-            img.setContentType(file.getContentType());
+                // Save DB metadata
+                PropertyImage img = new PropertyImage();
+                img.setProperty(property);
+                img.setFileName(fileName);
+                img.setImageUrl(publicUrl);
+                img.setContentType(file.getContentType());
 
-            savedImages.add(propertyImageService.addImage(img));
+                savedImages.add(propertyImageService.addImage(img));
+        	}
+            
+            
         }
 
         ApiResponse<?> response = new ApiResponse<>(

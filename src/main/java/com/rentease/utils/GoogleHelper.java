@@ -3,6 +3,7 @@ package com.rentease.utils;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ public class GoogleHelper {
 	
 	GoogleCredentials credentials;
 	Storage storage;
+	
+    @Autowired
+    private Helper helper;
 	
 	@Value("${spring.cloud.gcp.project-id}")
 	private String projectId;
@@ -46,6 +50,9 @@ public class GoogleHelper {
 		
 		String gcsPath = String.format("%s/%s", today, fileName);
 		
+//		byte[] bytes = file.getBytes();
+//        bytes = helper.compressMedia(bytes);
+		
 		// Upload the file
 		BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, gcsPath)
 	            .setContentType(file.getContentType())
@@ -53,7 +60,8 @@ public class GoogleHelper {
         
         storage.create(blobInfo, file.getBytes());
         
-        // Return public URL
+        // Return public URL 
+//      return String.format("https://storage.cloud.google.com/%s/%s", bucketName, bytes);
         return String.format("https://storage.cloud.google.com/%s/%s", bucketName, gcsPath);
 	}
 
