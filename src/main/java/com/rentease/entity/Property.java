@@ -17,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -30,6 +31,9 @@ public class Property {
     private Long id;
 
     private String title; // e.g. “Cozy Room near MRT”
+    
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
 	private double price;
@@ -82,7 +86,7 @@ public class Property {
     
     
     @Column(name = "min_lease_months", nullable = true, columnDefinition = "int default 0")
-    private Integer minLeaseMonths = 0;
+    private Integer minLeaseMonths;
 
 	@Enumerated(EnumType.STRING)
     @Column(name = "currency", nullable = false)
@@ -95,7 +99,8 @@ public class Property {
 	
 	@Column(name = "available_date", nullable = true)
 	private LocalDate availableDate;
-	
+
+
 	 public Long getId() {
 		return id;
 	}
@@ -270,5 +275,13 @@ public class Property {
 
 	public void setMinLeaseMonths(Integer minLeaseMonths) {
 		this.minLeaseMonths = minLeaseMonths;
+	}
+	
+	public LocalDate getAvailableDate() {
+		return availableDate;
+	}
+
+	public void setAvailableDate(LocalDate availableDate) {
+		this.availableDate = availableDate;
 	}
 }

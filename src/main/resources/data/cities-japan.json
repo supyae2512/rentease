@@ -1,0 +1,137 @@
+[
+  {
+    "city_en": "Tokyo",
+    "city_original": "東京都",
+    "prefecture_en": "Tokyo",
+    "prefecture_code": "13",
+    "latitude": 35.6897,
+    "longitude": 139.6922,
+    "population": 9733276
+  },
+  {
+    "city_en": "Yokohama",
+    "city_original": "横浜市",
+    "prefecture_en": "Kanagawa",
+    "prefecture_code": "14",
+    "latitude": 35.4442,
+    "longitude": 139.6381,
+    "population": 3777491
+  },
+  {
+    "city_en": "Osaka",
+    "city_original": "大阪市",
+    "prefecture_en": "Osaka",
+    "prefecture_code": "27",
+    "latitude": 34.6939,
+    "longitude": 135.5022,
+    "population": 2752412
+  },
+  {
+    "city_en": "Nagoya",
+    "city_original": "名古屋市",
+    "prefecture_en": "Aichi",
+    "prefecture_code": "23",
+    "latitude": 35.1833,
+    "longitude": 136.9000,
+    "population": 2332176
+  },
+  {
+    "city_en": "Sapporo",
+    "city_original": "札幌市",
+    "prefecture_en": "Hokkaido",
+    "prefecture_code": "01",
+    "latitude": 43.0619,
+    "longitude": 141.3544,
+    "population": 1973395
+  },
+  {
+    "city_en": "Fukuoka",
+    "city_original": "福岡市",
+    "prefecture_en": "Fukuoka",
+    "prefecture_code": "40",
+    "latitude": 33.5900,
+    "longitude": 130.4017,
+    "population": 1612392
+  },
+  {
+    "city_en": "Kawasaki",
+    "city_original": "川崎市",
+    "prefecture_en": "Kanagawa",
+    "prefecture_code": "14",
+    "latitude": 35.5167,
+    "longitude": 139.7000,
+    "population": 1538262
+  },
+  {
+    "city_en": "Kobe",
+    "city_original": "神戸市",
+    "prefecture_en": "Hyogo",
+    "prefecture_code": "28",
+    "latitude": 34.6900,
+    "longitude": 135.1956,
+    "population": 1525152
+  },
+  {
+    "city_en": "Kyoto",
+    "city_original": "京都市",
+    "prefecture_en": "Kyoto",
+    "prefecture_code": "26",
+    "latitude": 35.0117,
+    "longitude": 135.7683,
+    "population": 1463723
+  },
+  {
+    "city_en": "Saitama",
+    "city_original": "さいたま市",
+    "prefecture_en": "Saitama",
+    "prefecture_code": "11",
+    "latitude": 35.8614,
+    "longitude": 139.6456,
+    "population": 1324025
+  },
+  {
+    "city_en": "Hiroshima",
+    "city_original": "広島市",
+    "prefecture_en": "Hiroshima",
+    "prefecture_code": "34",
+    "latitude": 34.3914,
+    "longitude": 132.4519,
+    "population": 1200754
+  },
+  {
+    "city_en": "Sendai",
+    "city_original": "仙台市",
+    "prefecture_en": "Miyagi",
+    "prefecture_code": "04",
+    "latitude": 38.2682,
+    "longitude": 140.8694,
+    "population": 1096704
+  },
+  {
+    "city_en": "Chiba",
+    "city_original": "千葉市",
+    "prefecture_en": "Chiba",
+    "prefecture_code": "12",
+    "latitude": 35.6047,
+    "longitude": 140.1233,
+    "population": 974951
+  },
+  {
+    "city_en": "Kitakyushu",
+    "city_original": "北九州市",
+    "prefecture_en": "Fukuoka",
+    "prefecture_code": "40",
+    "latitude": 33.8821,
+    "longitude": 130.8778,
+    "population": 939029
+  },
+  {
+    "city_en": "Sakai",
+    "city_original": "堺市",
+    "prefecture_en": "Osaka",
+    "prefecture_code": "27",
+    "latitude": 34.5667,
+    "longitude": 135.4833,
+    "population": 826161
+  }
+]

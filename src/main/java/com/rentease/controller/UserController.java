@@ -66,10 +66,10 @@ public class UserController {
 //	                .maxAge(2 * 60 * 60)  // 2 hours
 //	                .secure(false)  // use true in production
 //	                .build();
-
+	        
 	        // return ResponseEntity.ok(authResponse);
 	        return ResponseEntity.ok()
-//			        .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+			        // .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
 			        .body(authResponse);
 	    }
 

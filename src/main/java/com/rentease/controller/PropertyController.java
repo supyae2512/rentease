@@ -1,5 +1,6 @@
 package com.rentease.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentease.dto.PropertyDTO;
+import com.rentease.dto.PropertyHomeResponse;
 import com.rentease.dto.PropertyWidgetResponse;
 import com.rentease.entity.Property;
 import com.rentease.entity.Property.PropertyStatus;
@@ -127,12 +129,12 @@ public class PropertyController {
 
         property.setPropertyType(dto.getPropertyType());
         property.setPropertyStatus(dto.getPropertyStatus());
-//        property.setRentalFrequency(dto.getRentalFrequency());
-//        property.setMinimumLease(dto.getMinimumLease());
+        property.setLeaseTerm(dto.getLeaseTerm());
+        property.setMinLeaseMonths(dto.getMinLeaseMonths());
         property.setCurrency(dto.getCurrency());
         
         property.setPrice(dto.getPrice());
-//        property.setAvailability(dto.getAvailability());
+        property.setAvailableDate(dto.getAvailableDate());
 
        
         propertyService.updateProperty(propertyId, dto);
@@ -234,7 +236,7 @@ public class PropertyController {
     
     
     @GetMapping("/widget-data")
-    public PropertyWidgetResponse getWidgetData() {
+    public PropertyWidgetResponse getWidgetData() throws IOException {
 
         PropertyWidgetResponse response = new PropertyWidgetResponse();
 
@@ -263,6 +265,45 @@ public class PropertyController {
                 "Elevator","Garden","Gym","Parking","Security","Swimming Pool",
                 "WiFi","Disabled Access","Air Conditioning","Laundry","Heater"
         ));
+        
+        List<String> cityList = propertyService.getCityList();
+    	response.setPropertyCities(cityList);
+
+        return response;
+    }
+    
+    
+    @GetMapping("/home-data")
+    public PropertyHomeResponse getHomeData() throws IOException {
+
+    	PropertyHomeResponse response = new PropertyHomeResponse();
+
+        // 1. Property Types
+    	PropertyType[] propertyTypes = PropertyType.values();
+    	List<PropertyType> propertyTypeList = Arrays.asList(propertyTypes);
+    	
+    	// 2. Property Cities 
+    	
+    	List<String> cityList = propertyService.getCityList();
+    	response.setPropertyCities(cityList);
+    	response.setPropertyTypes(propertyTypeList);
+        
+
+        // 2. Status
+//        List<PropertyWidgetResponse.TypeCount> statusCounts =
+//                Arrays.stream(PropertyStatus.values())
+//                        .map(st -> new PropertyWidgetResponse.TypeCount(
+//                                st.name(),
+//                                propertyService.countByStatus(st)
+//                        ))
+//                        .collect(Collectors.toList());
+//        response.setStatuses(statusCounts);
+//
+//        // 3. Amenities list (STATIC)
+//        response.setAmenities(Arrays.asList(
+//                "Elevator","Garden","Gym","Parking","Security","Swimming Pool",
+//                "WiFi","Disabled Access","Air Conditioning","Laundry","Heater"
+//        ));
 
         return response;
     }

@@ -113,7 +113,7 @@ public class PropertyDTO {
 	}
 
 	public void setCity(String city) {
-		this.city = city;
+		this.city = city.toLowerCase();
 	}
 
 	public String getPostalCode() {
@@ -129,7 +129,7 @@ public class PropertyDTO {
 	}
 
 	public void setCountry(String country) {
-		this.country = country;
+		this.country = country.toLowerCase();
 	}
 
 	public Float getLatitude() {

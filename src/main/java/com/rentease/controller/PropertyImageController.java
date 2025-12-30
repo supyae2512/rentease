@@ -180,8 +180,10 @@ public class PropertyImageController {
         for (MultipartFile file : files) { 
         	
         	if (file.getSize() > 0) {
+        		
         		// Create unique filename
                 String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                System.out.println(fileName);
 
                 // Upload to GCS
                 // String publicUrl = googleHelper.uploadFileToGcs(fileName, file);

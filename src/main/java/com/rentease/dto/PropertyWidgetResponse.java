@@ -3,6 +3,7 @@ package com.rentease.dto;
 
 import java.util.List;
 
+
 import lombok.Data;
 
 @Data
@@ -10,6 +11,8 @@ public class PropertyWidgetResponse {
     private List<TypeCount> propertyTypes;
     private List<TypeCount> statuses;
     private List<String> amenities;
+    
+    private List<String> propertyCities; 
 
     @Data
     public static class TypeCount {
@@ -60,5 +63,14 @@ public class PropertyWidgetResponse {
 
 	public void setAmenities(List<String> amenities) {
 		this.amenities = amenities;
+	}
+	
+
+	public List<String> getPropertyCities() {
+		return propertyCities;
+	}
+
+	public void setPropertyCities(List<String> propertyCities) {
+		this.propertyCities = propertyCities;
 	}
 }

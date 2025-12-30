@@ -1,11 +1,14 @@
 package com.rentease.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rentease.dto.PropertyDTO;
 import com.rentease.dto.PropertyDetailDTO;
 import com.rentease.entity.Property;
@@ -77,6 +82,8 @@ public class PropertyService {
         
         property.setLeaseTerm(dto.getLeaseTerm());
         property.setMinLeaseMonths(dto.getMinLeaseMonths());
+        
+        property.setAvailableDate(dto.getAvailableDate());
 
         // Save Property first (required for 1-to-1 mapping)
         Property savedProperty = propertyRepository.save(property);
@@ -262,6 +269,28 @@ public class PropertyService {
         if (!p.getAdvertiserId().equals(userId)) {
             throw new RuntimeException("Permission denied");
         }
+    }
+    
+    public List<String> getCityList() throws IOException {
+		
+    	ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode city = mapper.readTree(
+                new ClassPathResource("data/cities-japan.json").getInputStream()
+        );
+        
+        System.out.println(city);
+
+        List<String> cityNames = new ArrayList<>();
+
+        for (JsonNode cityNode : city) {
+        	System.out.println(cityNode);
+        	
+            cityNames.add(cityNode.get("city_en").asText());
+        }
+
+        return cityNames;
+    	
     }
 
 }
